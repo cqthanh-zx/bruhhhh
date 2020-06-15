@@ -1,0 +1,22 @@
+// CODE 200
+const OK = 200;
+const CREATED = 201;
+
+// CODE 400
+const NOT_FOUND = 404;
+const UNPROCESSABLE = 422;
+const BAD_REQUEST = 400;
+
+// CODE 500
+const ACCESS_DENIED = 503;
+const UNAUTHORIZED = 501;
+
+export {
+    OK,
+    CREATED,
+    ACCESS_DENIED,
+    BAD_REQUEST,
+    UNAUTHORIZED,
+    UNPROCESSABLE,
+    NOT_FOUND
+}

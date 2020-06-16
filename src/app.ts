@@ -27,5 +27,5 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 app.use(NotFoundController);
-// await new DatabaseController().initModels();
+await new DatabaseController().initModels();
 await app.listen({ port: PORT });

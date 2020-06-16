@@ -3,7 +3,7 @@ import * as HttpStatusCode from "../constants/HttpStatusCode.ts"
 
 const getUsers = async ({ response }: { response: any }) => {
   response.state = HttpStatusCode.OK;
-  response.body = "Get all users!";
+  response.body = await User.all();
 };
 
 const getUser = async ({ params, response }: { 
@@ -15,12 +15,30 @@ const getUser = async ({ params, response }: {
 };
 
 const addUser = async ({ request, response }: { request: any; response: any }) => {
-  const body = await request.body();
-  const user: IUser = body.value;
-  console.log(`User Data: ${JSON.stringify(user)}`);
-  await User.create(user as any);
-  response.status = HttpStatusCode.CREATED;
-  response.body = user;
+  try {
+    const body = await request.body();
+    const data: IUser = body.value;
+
+    console.log('user', data);
+
+    const user = new  User();
+    user.dob = data.dob;
+    user.email = data.email;
+    user.password = data.password;
+    user.firstName = data.firstName;
+    user.lastName = data.lastName;
+    user.password = await User.hashPassword(data.password);
+    user.gender = data.gender;
+
+    await user.save();
+
+    response.status = 201;
+    response.body = "Create success!";
+  } catch(e){
+    console.error(e);
+    response.status = 500;
+    response.body = "Create failed!";
+  }
 };
 
 const updateUser = async ({ params, request, response }: {
@@ -41,7 +59,6 @@ const deleteUser = async ({ params, response }: {
     params: { id: string }; 
     response: any },
 ) => {
-
   console.log(`Delete UserId ${params.id}`);
   response.status = HttpStatusCode.OK;
   response.body = "OK";

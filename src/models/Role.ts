@@ -1,11 +1,16 @@
 import { Model, DataTypes } from 'https://deno.land/x/denodb/mod.ts';
+import { User } from "./User.ts";
 
-class Role extends Model {
+export class Role extends Model {
+
     static table = 'roles'
+
     static timestamps = true;
+
     static fields = {
         id: {
-            type: DataTypes.STRING,
+            type: DataTypes.UUID,
+            autoIncrement: true,
             primaryKey: true
         },
         name: DataTypes.string(25),
@@ -14,9 +19,11 @@ class Role extends Model {
     };
 
     static defaults = {};
-}
 
-export default Role;
+    static users(){
+        return this.hasMany(User);
+    }
+}
 
 export interface IRole {
     name: string;

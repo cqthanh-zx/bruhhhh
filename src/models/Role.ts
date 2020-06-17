@@ -9,7 +9,6 @@ export class Role extends Model {
 
     static fields = {
         id: {
-            type: DataTypes.UUID,
             autoIncrement: true,
             primaryKey: true
         },
@@ -17,6 +16,11 @@ export class Role extends Model {
         description: DataTypes.string(50),
         status: DataTypes.enum(['active', 'disabled']),
     };
+
+    id!: number;
+    name!: string;
+    description!: string;
+    status!: string;
 
     static defaults = {};
 

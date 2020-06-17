@@ -1,5 +1,5 @@
 import { Database, Relationships } from "https://deno.land/x/denodb/mod.ts";
-import { DB } from "../configs/index.ts";
+import { postgresOptions } from "../config/db.ts";
 
 //Map models
 import { User } from "../models/User.ts";
@@ -12,13 +12,7 @@ export class DatabaseController {
    * Initialise database client
    */
   constructor() {
-    this.client = new Database({ dialect: 'postgres', debug: true }, {
-        database: DB.NAME,
-        host: DB.HOST,
-        username: DB.USER_NAME,
-        password: DB.PASSWORD,
-        port: DB.PORT, // optional
-      });
+    this.client = new Database({ dialect: 'postgres', debug: true }, postgresOptions);
   }
 
   /**
@@ -26,12 +20,10 @@ export class DatabaseController {
    */
   async initModels() {
     // DB TABLES MAPPING
+    // this.client.link([User, Role]);
+    const UserRole = Relationships.manyToMany(User, Role);
+    this.client.link([UserRole, User, Role]);
 
-    this.client.link([User]);
-
-    // const UserRole = Relationships.manyToMany(User, Role);
-    // this.client.link([UserRole, User, Role]);
-
-    await this.client.sync({});
+    await this.client.sync({ drop: false });
   }
 }

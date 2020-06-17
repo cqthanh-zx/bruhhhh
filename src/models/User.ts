@@ -5,13 +5,12 @@ import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
 
 export class User extends Model {
 
-    static table = 'users'
+    static table = 'users';
     static timestamps = true;
 
     // Database columns
     static fields = {
         id: {
-            type: DataTypes.UUID,
             autoIncrement: true,
             primaryKey: true
         },
@@ -51,7 +50,7 @@ export class User extends Model {
 
     // Get user's roles
     static roles(){
-        // return this.hasMany(Role);
+        return this.hasMany(Role);
     }
 };
 

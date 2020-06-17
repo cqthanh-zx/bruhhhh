@@ -2,6 +2,9 @@
     "$schema": "https://deno.land/x/denon/schema.json",
     "env": {},
     "scripts": {
+      "reload": {
+        "cmd": "deno run --unstable --reload -A app.ts"
+      },
       "start": {
         "cmd": "deno run --unstable -A app.ts"
       }
